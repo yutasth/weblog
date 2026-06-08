@@ -1,0 +1,30 @@
+title: "Yuta Something"
+url: "https://yutasth.github.io"
+baseurl: "/weblog"
+lang: ja
+timezone: Asia/Tokyo
+
+collections:
+  diary:
+    output: true
+    permalink: /:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: diary
+    values:
+      layout: post
+
+markdown: kramdown
+kramdown:
+  input: GFM
+
+plugins:
+  - jekyll-sitemap
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor

@@ -1,0 +1,69 @@
+<aside class="sidebar" aria-label="検索とカレンダー">
+  <section class="search-panel">
+    <label for="site-search">検索</label>
+    <div class="search-field">
+      <input id="site-search" type="search" autocomplete="off">
+      <button class="search-clear" type="button" aria-label="検索を消去">×</button>
+    </div>
+    <div id="search-results" class="search-results" aria-live="polite"></div>
+  </section>
+
+  <section class="calendar-panel" aria-label="投稿カレンダー">
+    <div class="calendar-header">
+      <button id="calendar-prev" type="button" aria-label="前の月">‹</button>
+      <h2><a id="calendar-title" href="#" data-baseurl="{{ site.baseurl }}"></a></h2>
+      <button id="calendar-next" type="button" aria-label="次の月">›</button>
+    </div>
+    <table class="calendar">
+      <thead>
+        <tr>
+          <th scope="col">月</th>
+          <th scope="col">火</th>
+          <th scope="col">水</th>
+          <th scope="col">木</th>
+          <th scope="col">金</th>
+          <th scope="col">土</th>
+          <th scope="col">日</th>
+        </tr>
+      </thead>
+      <tbody id="calendar-body"></tbody>
+    </table>
+  </section>
+
+  <nav class="month-archive" aria-label="月別ページ">
+    {% assign current_year = 'now' | date: '%Y' | plus: 0 %}
+    {% assign year_count = current_year | minus: 2026 %}
+    {% assign archive_years = (0..year_count) | reverse %}
+    {% for year_offset in archive_years %}
+      {% assign archive_year = 2026 | plus: year_offset %}
+      <section>
+        <h2>{{ archive_year }}</h2>
+        <div>
+          {% for month_number in (1..12) %}
+            {% if month_number < 10 %}
+              {% assign month_label = month_number | prepend: '0' %}
+            {% else %}
+              {% assign month_label = month_number %}
+            {% endif %}
+            {% assign month_key = archive_year | append: month_label %}
+            {% assign has_posts = false %}
+            {% for post in site.diary %}
+              {% assign post_id = post.path | split: "/" | last | remove: ".md" %}
+              {% assign post_month = post_id | slice: 0, 6 %}
+              {% if post_month == month_key %}
+                {% assign has_posts = true %}
+                {% break %}
+              {% endif %}
+            {% endfor %}
+            {% if has_posts %}
+              {% assign month_path = month_key | prepend: "/" | append: "/" %}
+              <a href="{{ month_path | relative_url }}">{{ month_label }}</a>
+            {% else %}
+              <span aria-disabled="true">{{ month_label }}</span>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+    {% endfor %}
+  </nav>
+</aside>

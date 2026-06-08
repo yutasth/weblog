@@ -1,0 +1,1 @@
+{% assign entry_id = include.post.path | split: "/" | last | remove: ".md" %}{{ entry_id | slice: 0, 4 }}.{{ entry_id | slice: 4, 2 }}.{{ entry_id | slice: 6, 2 }}{% assign entry_sequence = entry_id | slice: 8, 10 %}{% if entry_sequence != "1" %}-{{ entry_sequence }}{% endif %}

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="{{ site.lang | default: 'ja' }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fbfbf9">
+    <title>{% if page.layout == "post" %}{% include post-title.html post=page %} - {% elsif page.title and page.title != "ホーム" %}{{ page.title }} - {% endif %}{{ site.title }}</title>
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="{{ '/' | relative_url }}">
+        <span>{{ site.title }}</span>
+        {% if page.layout == "post" %}
+          {% assign entry_id = page.path | split: "/" | last | remove: ".md" %}
+          <small>: {{ entry_id | slice: 0, 4 }}-{{ entry_id | slice: 4, 2 }}</small>
+        {% elsif page.layout == "month" %}
+          <small>: {{ page.month | slice: 0, 4 }}-{{ page.month | slice: 4, 2 }}</small>
+        {% endif %}
+      </a>
+    </header>
+    <div class="shell">
+      <main class="main" id="main-content">
+        {{ content }}
+      </main>
+      {% include sidebar.html %}
+    </div>
+
+    <script type="application/json" id="search-data">
+      [
+        {% assign diary_entries = site.diary | reverse %}
+        {% for post in diary_entries %}
+          {% assign entry_id = post.path | split: "/" | last | remove: ".md" %}
+          {% assign entry_sequence = entry_id | slice: 8, 10 %}
+          {
+            "title": "{{ entry_id | slice: 0, 4 }}.{{ entry_id | slice: 4, 2 }}.{{ entry_id | slice: 6, 2 }}{% if entry_sequence != "1" %}-{{ entry_sequence }}{% endif %}",
+            "url": {{ post.url | relative_url | jsonify }},
+            "isoDate": "{{ entry_id | slice: 0, 4 }}-{{ entry_id | slice: 4, 2 }}-{{ entry_id | slice: 6, 2 }}",
+            "text": {{ post.content | strip_html | strip_newlines | jsonify }}
+          }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    </script>
+    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+  </body>
+</html>
