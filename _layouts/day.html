@@ -1,0 +1,22 @@
+---
+layout: default
+---
+<section class="day-page">
+  <div class="entries">
+    {% assign diary_entries = site.diary | reverse %}
+    {% for post in diary_entries %}
+      {% assign post_id = post.path | split: "/" | last | remove: ".md" %}
+      {% assign post_day = post_id | slice: 0, 8 %}
+      {% if post_day == page.day %}
+        <article class="entry">
+          <header class="entry-header">
+            <h2><a href="{{ post.url | relative_url }}">{% include post-title.html post=post %}</a></h2>
+          </header>
+          <div class="entry-body">
+            {{ post.content }}
+          </div>
+        </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>

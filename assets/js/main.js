@@ -59,7 +59,7 @@
   var postDates = {};
 
   posts.forEach(function (post) {
-    if (!postDates[post.isoDate]) postDates[post.isoDate] = post.url;
+    if (!postDates[post.isoDate]) postDates[post.isoDate] = post.dayUrl;
   });
 
   var newest = posts.length ? posts[0].isoDate.split("-").map(Number) : null;

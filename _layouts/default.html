@@ -13,7 +13,10 @@
         <span>{{ site.title }}</span>
         {% if page.layout == "post" %}
           {% assign entry_id = page.path | split: "/" | last | remove: ".md" %}
-          <small>: {{ entry_id | slice: 0, 4 }}-{{ entry_id | slice: 4, 2 }}</small>
+          {% assign entry_sequence = entry_id | slice: 8, 10 %}
+          <small>: {{ entry_id | slice: 0, 4 }}-{{ entry_id | slice: 4, 2 }}-{{ entry_id | slice: 6, 2 }}{% if entry_sequence != "1" %}-{{ entry_sequence }}{% endif %}</small>
+        {% elsif page.layout == "day" %}
+          <small>: {{ page.day | slice: 0, 4 }}-{{ page.day | slice: 4, 2 }}-{{ page.day | slice: 6, 2 }}</small>
         {% elsif page.layout == "month" %}
           <small>: {{ page.month | slice: 0, 4 }}-{{ page.month | slice: 4, 2 }}</small>
         {% endif %}
@@ -32,9 +35,11 @@
         {% for post in diary_entries %}
           {% assign entry_id = post.path | split: "/" | last | remove: ".md" %}
           {% assign entry_sequence = entry_id | slice: 8, 10 %}
+          {% assign day_path = entry_id | slice: 0, 8 | prepend: "/" | append: "/" %}
           {
             "title": "{{ entry_id | slice: 0, 4 }}.{{ entry_id | slice: 4, 2 }}.{{ entry_id | slice: 6, 2 }}{% if entry_sequence != "1" %}-{{ entry_sequence }}{% endif %}",
             "url": {{ post.url | relative_url | jsonify }},
+            "dayUrl": {{ day_path | relative_url | jsonify }},
             "isoDate": "{{ entry_id | slice: 0, 4 }}-{{ entry_id | slice: 4, 2 }}-{{ entry_id | slice: 6, 2 }}",
             "text": {{ post.content | strip_html | strip_newlines | jsonify }}
           }{% unless forloop.last %},{% endunless %}
