@@ -320,7 +320,12 @@ button {
 }
 
 .calendar-header h2 a:hover {
-    color: var(--accent);
+  color: var(--accent);
+}
+
+.calendar-header h2 a[aria-disabled="true"] {
+  color: var(--muted);
+  cursor: default;
 }
 
 .calendar-header button {

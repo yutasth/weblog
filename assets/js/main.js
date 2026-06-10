@@ -74,9 +74,18 @@
     var days = new Date(year, month + 1, 0).getDate();
     var cells = [];
     var monthKey = String(year) + String(month + 1).padStart(2, "0");
+    var hasPostsInMonth = posts.some(function (post) {
+      return post.isoDate.slice(0, 7).replace("-", "") === monthKey;
+    });
 
     calendarTitle.textContent = year + "年 " + (month + 1) + "月";
-    calendarTitle.href = calendarTitle.dataset.baseurl + "/" + monthKey + "/";
+    if (hasPostsInMonth) {
+      calendarTitle.href = calendarTitle.dataset.baseurl + "/" + monthKey + "/";
+      calendarTitle.removeAttribute("aria-disabled");
+    } else {
+      calendarTitle.removeAttribute("href");
+      calendarTitle.setAttribute("aria-disabled", "true");
+    }
     calendarBody.innerHTML = "";
 
     for (var blank = 0; blank < firstDay; blank += 1) cells.push("");
