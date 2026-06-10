@@ -2,10 +2,6 @@
 layout: default
 ---
 <section class="month-page">
-  <header class="page-title">
-    <h1>{{ page.title }}</h1>
-  </header>
-
   <div class="entries">
     {% assign diary_entries = site.diary | reverse %}
     {% for post in diary_entries %}
