@@ -1,0 +1,4 @@
+interface:
+  display_name: "日記を更新・公開"
+  short_description: "日付と本文から日記を追加し、検証・commit・pushまで実行します"
+  default_prompt: "Use $publish-diary-entry to add this dated diary entry and publish it."
