@@ -142,12 +142,9 @@ button {
     text-indent: 1em;
 }
 
-.entry-body ul,
-.entry-body ol,
-.post-body ul,
-.post-body ol {
-    padding-left: 0;
-    list-style-position: inside;
+.entry-body li p,
+.post-body li p {
+    text-indent: 0;
 }
 
 .entry-body hr,
