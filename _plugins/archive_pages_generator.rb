@@ -14,6 +14,8 @@ module Jekyll
         "layout" => "day",
         "title" => "#{day[0, 4]}.#{day[4, 2]}.#{day[6, 2]}",
         "day" => day,
+        "robots" => "noindex, follow",
+        "sitemap" => false,
         "permalink" => "/#{day}/"
       }
     end
@@ -32,6 +34,8 @@ module Jekyll
         "layout" => "month",
         "title" => "#{month[0, 4]}.#{month[4, 2]}",
         "month" => month,
+        "robots" => "noindex, follow",
+        "sitemap" => false,
         "permalink" => "/#{month}/"
       }
     end
